@@ -1,0 +1,59 @@
+﻿
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        <a asp-action="clientinfo">Data from JSON</a>
+    </p>
+
+    <div id="container"></div>
+
+    <script>
+        (() => {
+            fetch("/json/GetData").then((response) => {
+
+                return response.json();
+            }).then((data) => {
+                renderData(data);
+            }).catch((error) => {
+                console.log(error);
+            });
+        })();
+
+        function renderData(data) {
+            let root = document.querySelector("#container");
+            for (var i = 0; i < data.length; i++) {
+
+                let id = document.createElement("span");
+                id.textContent = data[i].id;
+                id.innerHTML += "<br>";
+
+                let login = document.createElement("span");
+                login.textContent = data[i].login;
+                login.innerHTML += "<br>";
+
+                let mail = document.createElement("span");
+                mail.textContent = data[i].email;
+
+                let hr = document.createElement("hr");
+
+                root.appendChild(id);
+                root.appendChild(login);
+                root.appendChild(mail);
+                root.appendChild(hr);
+                console.log(data[i]);
+            }
+        }
+    </script>
+</body>
+</html>
